@@ -1,0 +1,95 @@
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.page-frame {
+    width: 100%;
+    max-width: 1000px;
+    height: calc(100vh - 80px);
+    border: none;
+    border-radius: 16px;
+    background: transparent;
+}
+
+/* ===== エラーページ ===== */
+.error-page {
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 100px);
+}
+
+.error-container {
+    text-align: center;
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    max-width: 500px;
+    width: 100%;
+}
+
+body.dark-mode .error-container {
+    background: #2a2a2a;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.error-container h1 {
+    font-size: 72px;
+    color: #f44336;
+    margin-bottom: 10px;
+}
+
+.error-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+body.dark-mode .error-container h2 {
+    color: #e0e0e0;
+}
+
+.error-container p {
+    color: #666;
+    margin-bottom: 25px;
+}
+
+body.dark-mode .error-container p {
+    color: #bbb;
+}
+
+.btn-home {
+    background-color: #2196f3;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    padding: 12px 24px;
+}
+
+.btn-home:hover {
+    background-color: #1e88e5;
+}
+
+/* ===== レスポンシブ対応 ===== */
+@media (max-width: 768px) {
+    .page-frame {
+        height: calc(100vh - 70px);
+    }
+    
+    .error-container {
+        padding: 25px;
+    }
+    
+    .error-container h1 {
+        font-size: 56px;
+    }
+    
+    .error-container h2 {
+        font-size: 20px;
+    }
+}

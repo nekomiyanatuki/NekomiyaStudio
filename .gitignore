@@ -1,0 +1,36 @@
+
+# ログ
+logs
+*.log
+
+# キャッシュ
+.cache
+*.cache
+*.cache.*
+.cache/
+*.cache/
+*.cache*/
+
+# 準備中または未公開ファイル
+new
+new/
+
+# pic
+assets
+
+# ToDo
+*.txt
+*.csv
+
+# secret
+.env
+*.env
+!.env.example
+!*.env.example
+
+# DB
+.db
+*.db
+db.
+db.*
+*.db.*

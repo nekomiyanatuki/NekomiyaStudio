@@ -1,19 +1,10 @@
-body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f5f7fa;
-    margin: 0;
-    padding: 20px;
+.chart-page {
     display: flex;
     justify-content: center;
     align-items: flex-start;
     gap: 30px;
     flex-wrap: wrap;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-body.dark-mode {
-    background-color: #1a1a1a;
-    color: #e0e0e0;
+    padding: 20px;
 }
 
 .panel {
@@ -31,6 +22,7 @@ body.dark-mode .panel {
     box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
+/* ===== チャートコンテナ ===== */
 .chart-container {
     background: white;
     padding: 25px;
@@ -39,7 +31,7 @@ body.dark-mode .panel {
     width: 100%;
     max-width: 500px;
     position: sticky;
-    top: 20px;
+    top: 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -51,16 +43,32 @@ body.dark-mode .chart-container {
     box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
+/* ===== キャンバスラッパー（無限拡大防止） ===== */
 .canvas-wrapper {
     position: relative;
     width: 100%;
     aspect-ratio: 1 / 1;
+    max-height: 500px;
     margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.chart-title-display {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+body.dark-mode .chart-title-display {
+    color: #e0e0e0;
 }
 
 #customRadarChart {
     width: 100% !important;
     height: 100% !important;
+    display: block;
 }
 
 h3 {
@@ -122,6 +130,28 @@ body.dark-mode input[type="text"] {
     color: #e0e0e0;
 }
 
+.title-input {
+    font-size: 16px;
+    padding: 10px 12px;
+}
+
+/* ===== 項目リスト（スクロール対応） ===== */
+.value-inputs-scroll {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.value-inputs-scroll.scrollable {
+    border: 1px solid #f0f2f5;
+    border-radius: 6px;
+    padding: 10px;
+}
+
+body.dark-mode .value-inputs-scroll.scrollable {
+    border-color: #444;
+}
+
 .input-row {
     display: flex;
     align-items: center;
@@ -167,30 +197,27 @@ body.dark-mode .slider-val {
     color: #e0e0e0;
 }
 
-.btn {
-    border: none;
-    border-radius: 6px;
-    padding: 10px 14px;
-    font-size: 14px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.2s, opacity 0.2s;
-}
-
-.btn:hover {
-    opacity: 0.85;
-}
-
+/* ===== ボタン =====*/
 .btn-add {
     background-color: #4caf50;
     color: white;
-    width: 100%;
+    flex: 1;
     margin-top: 5px;
-    margin-bottom: 20px;
 }
 
 .btn-add:hover {
     background-color: #43a047;
+}
+
+.btn-reset {
+    background-color: #ff9800;
+    color: white;
+    flex: 1;
+    margin-top: 5px;
+}
+
+.btn-reset:hover {
+    background-color: #f57c00;
 }
 
 .btn-delete {
@@ -208,6 +235,7 @@ body.dark-mode .slider-val {
     color: white;
     font-size: 15px;
     padding: 12px;
+    width: 100%;
     box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
 }
 
@@ -215,43 +243,100 @@ body.dark-mode .slider-val {
     background-color: #1e88e5;
 }
 
-.btn-share {
-    background-color: #9c27b0;
+/* ===== 共有ボタン（右下配置） ===== */
+.btn-chart-share {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(156, 39, 176, 0.9);
     color: white;
-    font-size: 15px;
-    padding: 12px;
-    box-shadow: 0 4px 10px rgba(156, 39, 176, 0.3);
-    margin-top: 10px;
-}
-
-.btn-share:hover {
-    background-color: #8e24aa;
-}
-
-.btn-theme {
-    background: transparent;
-    font-size: 20px;
-    padding: 5px 10px;
-    cursor: pointer;
     border: none;
-    transition: transform 0.2s;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: background 0.2s, transform 0.2s;
+    z-index: 5;
 }
 
-.btn-theme:hover {
+.btn-chart-share:hover {
+    background-color: rgba(156, 39, 176, 1);
     transform: scale(1.1);
-    opacity: 1;
 }
 
-.button-row {
+.btn-chart-share svg {
+    width: 18px;
+    height: 18px;
+}
+
+.button-group {
     display: flex;
     gap: 10px;
-    width: 100%;
 }
 
-.button-row .btn-save,
-.button-row .btn-share {
-    flex: 1;
-    margin-top: 0;
+/* ===== 数値直接入力 ===== */
+.slider-val-input {
+    width: 50px;
+    padding: 4px 6px;
+    border: 1px solid #ccd4dc;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    transition: border-color 0.2s;
+}
+
+.slider-val-input:focus {
+    outline: none;
+    border-color: #2196f3;
+}
+
+body.dark-mode .slider-val-input {
+    background: #3a3a3a;
+    border-color: #444;
+    color: #e0e0e0;
+}
+
+/* ===== カラーピッカー ===== */
+.color-picker-group {
+    display: block;
+}
+
+.color-picker-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-input {
+    width: 50px;
+    height: 40px;
+    border: 1px solid #ccd4dc;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 2px;
+}
+
+body.dark-mode .color-input {
+    background: #3a3a3a;
+    border-color: #444;
+}
+
+.color-preview {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    border: 1px solid #ccd4dc;
+    background-color: #36a2eb;
+}
+
+body.dark-mode .color-preview {
+    border-color: #444;
 }
 
 .loading-overlay {
@@ -288,6 +373,7 @@ body.dark-mode .loading-overlay {
     100% { transform: rotate(360deg); }
 }
 
+/* ===== ローディング ===== */
 .loading-overlay p {
     color: #555;
     font-size: 14px;
@@ -296,31 +382,4 @@ body.dark-mode .loading-overlay {
 
 body.dark-mode .loading-overlay p {
     color: #bbb;
-}
-
-.toast {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: #333;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 25px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    opacity: 0;
-    transition: transform 0.3s, opacity 0.3s;
-    z-index: 1000;
-    font-size: 14px;
-    font-weight: normal;
-}
-
-.toast.show {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-}
-
-body.dark-mode .toast {
-    background: #e0e0e0;
-    color: #1a1a1a;
 }

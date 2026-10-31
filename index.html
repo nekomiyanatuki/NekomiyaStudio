@@ -3,318 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Circle Chart</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <title>猫宮のアトリエwith猫宮の街</title>
+    
+    <!-- OGP（Discord 埋め込み用） -->
+    <meta property="og:title" content="猫宮のアトリエwith猫宮の街">
+    <meta property="og:description" content="NekomiyaStudio-with-NekomiyaCity">
+    <meta property="og:image" content="https://nekomiyanatuki.github.io/NekomiyaStudio-with-NekomiyaCity/images/icons/logo.png">
+    <meta property="og:url" content="https://nekomiyanatuki.github.io/NekomiyaStudio-with-NekomiyaCity/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 
-<div class="panel">
-    <div class="header-row">
-        <h3>① デザイン変更</h3>
+<header class="sticky-header">
+    <a href="Home" class="site-logo" id="siteLogo">
+        <img src="images/icons/logo.png" alt="猫宮のアトリエwith猫宮の街" class="logo-img">
+    </a>
+    <div class="header-actions">
         <button class="btn btn-theme" id="themeToggle" title="テーマ切り替え">🌙</button>
+        <button class="hamburger" id="hamburgerBtn" aria-label="メニューを開く">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
-    <div class="form-group">
-        <label for="gridStyle">網目の形状</label>
-        <select id="gridStyle">
-            <option value="polygon">多角形（標準）</option>
-            <option value="circle">正円（カスタム）</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="colorTheme">カラーテーマ</label>
-        <select id="colorTheme">
-            <option value="blue">ブルー（標準）</option>
-            <option value="red">レッド</option>
-            <option value="green">グリーン</option>
-            <option value="orange">オレンジ</option>
-        </select>
-    </div>
+</header>
 
-    <h3>② 項目の編集・数値入力</h3>
-    <div id="valueInputs"></div>
-    <button class="btn btn-add" id="addBtn">+ 新しい項目を追加</button>
-</div>
+<nav class="side-menu" id="sideMenu">
+    <ul id="menuList"></ul>
+</nav>
+<div class="menu-overlay" id="menuOverlay"></div>
 
-<div class="chart-container">
-    <div class="canvas-wrapper">
-        <canvas id="customRadarChart"></canvas>
-        <div id="loadingOverlay" class="loading-overlay">
-            <div class="loading-spinner"></div>
-            <p>グラフを読み込んでいます...</p>
-        </div>
-    </div>
-    <div class="button-row">
-        <button class="btn btn-save" id="saveBtn">📸 画像を保存</button>
-        <button class="btn btn-share" id="shareBtn">🔗 共有</button>
-    </div>
-</div>
+<!-- iframe は 1 つのみ。src は JavaScript で動的変更 -->
+<main class="main-content">
+    <iframe src="index.html" class="page-frame" id="pageFrame" title="Home"></iframe>
+</main>
+
+<button class="btn btn-link-share" id="linkShareBtn" title="ページの URL を共有">🔗</button>
 
 <div id="toast" class="toast"></div>
 
-<script>
-(function() {
-    // DOM 読み込み完了を待ってから実行
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
-
-    function init() {
-        // 初期データ（10 項目）
-        let chartData = [
-            { label: '項目 1', value: 80 },
-            { label: '項目 2', value: 70 },
-            { label: '項目 3', value: 65 },
-            { label: '項目 4', value: 85 },
-            { label: '項目 5', value: 50 },
-            { label: '項目 6', value: 90 },
-            { label: '項目 7', value: 75 },
-            { label: '項目 8', value: 60 },
-            { label: '項目 9', value: 80 },
-            { label: '項目 10', value: 70 }
-        ];
-
-        const colorThemes = {
-            blue: { line: 'rgba(54, 162, 235, 1)', bg: 'rgba(54, 162, 235, 0.2)', point: 'rgba(54, 162, 235, 1)' },
-            red: { line: 'rgba(255, 99, 132, 1)', bg: 'rgba(255, 99, 132, 0.2)', point: 'rgba(255, 99, 132, 1)' },
-            green: { line: 'rgba(75, 192, 192, 1)', bg: 'rgba(75, 192, 192, 0.2)', point: 'rgba(75, 192, 192, 1)' },
-            orange: { line: 'rgba(255, 159, 64, 1)', bg: 'rgba(255, 159, 64, 0.2)', point: 'rgba(255, 159, 64, 1)' }
-        };
-
-        const inputsContainer = document.getElementById('valueInputs');
-        const canvas = document.getElementById('customRadarChart');
-        const ctx = canvas.getContext('2d');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const themeToggle = document.getElementById('themeToggle');
-        const toast = document.getElementById('toast');
-        const addBtn = document.getElementById('addBtn');
-        const saveBtn = document.getElementById('saveBtn');
-        const shareBtn = document.getElementById('shareBtn');
-        const gridStyleSelect = document.getElementById('gridStyle');
-        const colorThemeSelect = document.getElementById('colorTheme');
-
-        // テーマ管理
-        let isDarkMode = localStorage.getItem('darkMode') === 'true';
-        
-        function applyTheme() {
-            document.body.classList.toggle('dark-mode', isDarkMode);
-            themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
-            localStorage.setItem('darkMode', isDarkMode);
-            updateChartColors();
-        }
-
-        themeToggle.addEventListener('click', function() {
-            isDarkMode = !isDarkMode;
-            applyTheme();
-        });
-
-        // OS の設定を初回読み込み時に反映
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && !localStorage.getItem('darkMode')) {
-            isDarkMode = true;
-        }
-
-        // グラフの描画
-        const myChart = new Chart(ctx, {
-            type: 'radar',
-            data: {
-                labels: chartData.map(function(d) { return d.label; }),
-                datasets: [{
-                    data: chartData.map(function(d) { return d.value; }),
-                    backgroundColor: colorThemes.blue.bg,
-                    borderColor: colorThemes.blue.line,
-                    borderWidth: 2,
-                    pointBackgroundColor: colorThemes.blue.point,
-                    pointRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
-                },
-                animation: {
-                    duration: 150
-                },
-                scales: {
-                    r: {
-                        min: 0,
-                        max: 100,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.1)',
-                            circular: false
-                        },
-                        angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                        ticks: {
-                            stepSize: 20,
-                            backdropColor: 'transparent',
-                            color: '#666'
-                        }
-                    }
-                }
-            },
-            plugins: [{
-                id: 'custom_canvas_background_color',
-                beforeDraw: function(chart) {
-                    const ctx = chart.canvas.getContext('2d');
-                    ctx.save();
-                    ctx.globalCompositeOperation = 'destination-over';
-                    ctx.fillStyle = isDarkMode ? '#1a1a1a' : '#ffffff';
-                    ctx.fillRect(0, 0, chart.width, chart.height);
-                    ctx.restore();
-                }
-            }]
-        });
-
-        // ローディング完了
-        setTimeout(function() {
-            loadingOverlay.style.display = 'none';
-        }, 500);
-
-        // テーマ切り替え時にグラフの色を更新
-        function updateChartColors() {
-            const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)';
-            const angleColor = isDarkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.1)';
-            const tickColor = isDarkMode ? '#aaa' : '#666';
-            
-            myChart.options.scales.r.grid.color = gridColor;
-            myChart.options.scales.r.angleLines.color = angleColor;
-            myChart.options.scales.r.ticks.color = tickColor;
-            myChart.update();
-        }
-
-        // 入力フォームの画面生成・同期関数
-        function renderInputs() {
-            inputsContainer.innerHTML = ''; 
-            
-            chartData.forEach(function(item, index) {
-                const row = document.createElement('div');
-                row.className = 'input-row';
-                
-                row.innerHTML = 
-                    '<input type="text" value="' + item.label + '" data-index="' + index + '" class="item-name-input" placeholder="項目名">' +
-                    '<div class="slider-container">' +
-                        '<input type="range" value="' + item.value + '" data-index="' + index + '" class="item-slider" min="0" max="100">' +
-                        '<span class="slider-val" id="val-' + index + '">' + item.value + '</span>' +
-                    '</div>' +
-                    '<button class="btn btn-delete" data-index="' + index + '">削除</button>';
-                
-                inputsContainer.appendChild(row);
-            });
-
-            myChart.data.labels = chartData.map(function(d) { return d.label; });
-            myChart.data.datasets[0].data = chartData.map(function(d) { return d.value; });
-            myChart.update();
-        }
-
-        // 入力イベント（event delegation）
-        inputsContainer.addEventListener('input', function(e) {
-            const index = parseInt(e.target.dataset.index);
-            
-            if (e.target.classList.contains('item-name-input')) {
-                chartData[index].label = e.target.value;
-                myChart.data.labels = chartData.map(function(d) { return d.label; });
-                myChart.update();
-            } else if (e.target.classList.contains('item-slider')) {
-                const val = parseInt(e.target.value);
-                chartData[index].value = val;
-                document.getElementById('val-' + index).textContent = val;
-                myChart.data.datasets[0].data[index] = val;
-                myChart.update();
-            }
-        });
-
-        // クリックイベント（削除ボタン）
-        inputsContainer.addEventListener('click', function(e) {
-            if (e.target.classList.contains('btn-delete')) {
-                const index = parseInt(e.target.dataset.index);
-                if (chartData.length <= 3) {
-                    alert("これ以上項目を減らすことはできません（最低 3 項目必要です）");
-                    return;
-                }
-                chartData.splice(index, 1); 
-                renderInputs(); 
-            }
-        });
-
-        // 新しく項目を追加
-        addBtn.addEventListener('click', function() {
-            const newNum = chartData.length + 1;
-            chartData.push({ label: '項目' + newNum, value: 50 }); 
-            renderInputs(); 
-        });
-
-        // 網目デザインの切り替え
-        gridStyleSelect.addEventListener('change', function(e) {
-            myChart.options.scales.r.grid.circular = (e.target.value === 'circle');
-            myChart.update();
-        });
-
-        // カラーテーマの切り替え
-        colorThemeSelect.addEventListener('change', function(e) {
-            const theme = colorThemes[e.target.value];
-            myChart.data.datasets[0].backgroundColor = theme.bg;
-            myChart.data.datasets[0].borderColor = theme.line;
-            myChart.data.datasets[0].pointBackgroundColor = theme.point;
-            myChart.update();
-        });
-
-        // トースト表示
-        function showToast(message) {
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(function() {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // 画像保存
-        saveBtn.addEventListener('click', function() {
-            loadingOverlay.style.display = 'none';
-            
-            const imageURI = canvas.toDataURL('image/png');
-            const link = document.createElement('a');
-            link.download = 'custom-chart.png';
-            link.href = imageURI;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            
-            showToast('✅ 画像を保存しました');
-        });
-
-        // 共有機能
-        shareBtn.addEventListener('click', function() {
-            const shareData = {
-                title: 'Custom Circle Chart',
-                text: '『Soul’s Remnant』の生活スキルを視覚化するカスタム円チャートツール',
-                url: window.location.href
-            };
-
-            if (navigator.share) {
-                navigator.share(shareData).then(function() {
-                    showToast('🔗 共有しました');
-                }).catch(function(err) {
-                    if (err.name !== 'AbortError') {
-                        showToast('⚠️ 共有に失敗しました');
-                    }
-                });
-            } else {
-                navigator.clipboard.writeText(window.location.href).then(function() {
-                    showToast('🔗 URL をコピーしました（共有メニューから貼り付け可能）');
-                }).catch(function() {
-                    showToast('⚠️ コピーに失敗しました');
-                });
-            }
-        });
-
-        // 初回読み込み
-        applyTheme();
-        renderInputs();
-    }
-})();
-</script>
+<script src="js/base.js"></script>
 </body>
 </html>

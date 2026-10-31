@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猫宮のアトリエwith猫宮の街</title>
+    
+    <!-- OGP（Discord 埋め込み用） -->
+    <meta property="og:title" content="猫宮のアトリエwith猫宮の街">
+    <meta property="og:description" content="NekomiyaStudio-with-NekomiyaCity">
+    <meta property="og:image" content="https://nekomiyanatuki.github.io/NekomiyaStudio-with-NekomiyaCity/images/icons/logo.png">
+    <meta property="og:url" content="https://nekomiyanatuki.github.io/NekomiyaStudio-with-NekomiyaCity/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<header class="sticky-header">
+    <a href="Home" class="site-logo" id="siteLogo">
+        <img src="images/icons/logo.png" alt="猫宮のアトリエwith猫宮の街" class="logo-img">
+    </a>
+    <div class="header-actions">
+        <button class="btn btn-theme" id="themeToggle" title="テーマ切り替え">🌙</button>
+        <button class="hamburger" id="hamburgerBtn" aria-label="メニューを開く">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
+
+<nav class="side-menu" id="sideMenu">
+    <ul id="menuList"></ul>
+</nav>
+<div class="menu-overlay" id="menuOverlay"></div>
+
+<main class="main-content" id="mainContent">
+    <!-- 各ページで上書き -->
+</main>
+
+<button class="btn btn-link-share" id="linkShareBtn" title="ページの URL を共有">🔗</button>
+
+<div id="toast" class="toast"></div>
+
+<script src="js/base.js"></script>
+</body>
+</html>

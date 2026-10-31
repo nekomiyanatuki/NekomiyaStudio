@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カスタム円チャート</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/cpc.css">
+</head>
+<body>
+
+<div class="chart-page">
+    <div class="panel">
+        <div class="header-row">
+            <h3>① デザイン変更</h3>
+        </div>
+        <div class="form-group">
+            <label for="gridStyle">網目の形状</label>
+            <select id="gridStyle">
+                <option value="polygon">多角形(デフォルト)</option>
+                <option value="circle">正円</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="colorTheme">カラーテーマ</label>
+            <select id="colorTheme">
+                <option value="blue">ブルー(デフォルト)</option>
+                <option value="red">レッド</option>
+                <option value="green">グリーン</option>
+                <option value="orange">オレンジ</option>
+                <option value="custom">カスタム</option>
+            </select>
+        </div>
+        <div class="form-group color-picker-group" id="colorPickerGroup" style="display: none;">
+            <label for="customColor">好きな色を選択</label>
+            <div class="color-picker-row">
+                <input type="color" id="customColor" value="#36a2eb" class="color-input">
+                <span class="color-preview" id="colorPreview"></span>
+            </div>
+        </div>
+
+        <h3>② チャートタイトル</h3>
+        <div class="form-group">
+            <input type="text" id="chartTitle" placeholder="チャートのタイトルを入力" class="title-input">
+        </div>
+
+        <h3>③ 項目の編集・数値入力</h3>
+        <div id="valueInputs" class="value-inputs-scroll"></div>
+        <div class="button-group">
+            <button class="btn btn-add" id="addBtn">+ 新しい項目を追加</button>
+            <button class="btn btn-reset" id="resetBtn">↺ リセット</button>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <div class="canvas-wrapper">
+            <canvas id="customRadarChart"></canvas>
+            <button class="btn btn-chart-share" id="chartShareBtn" title="チャートを共有">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="18" cy="5" r="3"/>
+                    <circle cx="6" cy="12" r="3"/>
+                    <circle cx="18" cy="19" r="3"/>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+            </button>
+            <div id="loadingOverlay" class="loading-overlay">
+                <div class="loading-spinner"></div>
+                <p>グラフを読み込んでいます...</p>
+            </div>
+        </div>
+        <button class="btn btn-save" id="saveBtn">📸 画像を保存</button>
+    </div>
+</div>
+
+<script src="js/cpc.js"></script>
+</body>
+</html>
