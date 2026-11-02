@@ -47,14 +47,6 @@
 明示的に許可されたものである[項目:2]以外での商用的な利用に繋がる可能性がございましたら、本プロジェクトのお問い合わせ先にご相談ください。
 ~~~
 
-## 貢献者 (Contributors)
-
-プロジェクトの発展を支えてくれた最高の支援者たち！
-
-<!-- all-contributors-start -->
-<!-- all-contributors-end -->
-
-
 # ~ NekomiyaStudio ~ with NekomiyaCity
 - **[Home(MainPage)](https://nekomiyanatuki.github.io/NekomiyaStudio)**
 > **`言語: 英語` | `Lang: EN` - `ISO: en_US`**
@@ -100,9 +92,9 @@ If learning or research leads to the training of an AI, such activities are ulti
 If there is any possibility that your use could lead to commercial use other than what is explicitly permitted [Item: 2], please consult the contact information for this project.
 ~~~
 
-## Contributors
+## 貢献者 (Contributors)
 
-Our amazing supporters who have helped the project grow!
+プロジェクトの発展を支えてくれた最高の支援者たち！ (Our amazing supporters who have helped the project grow!)
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
