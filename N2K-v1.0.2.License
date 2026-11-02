@@ -12,7 +12,7 @@ N2K-License-v1.0.2
 
 必須条件：
 - 原作者名を保持すること 例:"Copyright (c) 2023-2026 nekomiyanatuki"
-- 原リポジトリURLを表示すること 例:"https://github.com/nekomiyanatuki/NekomiyaStudio-with-NekomiyaCity"
+- 原リポジトリURLを表示すること 例:"https://github.com/nekomiyanatuki/NekomiyaStudio"
 - 改変内容を明示すること
 - 原作者または原作品から公式に承認・支援されていると誤認させないこと
 
@@ -31,8 +31,8 @@ N2K-License-v1.0.2
 
 本ソフトウェアまたはその派生物を再配布する場合、以下の情報を目立つ場所に表示しなければならない。
 - 原作者名 (例:nekomiyanatuki)
-- 原作品名 (例:NekomiyaStudio-with-NekomiyaCity)
-- 原リポジトリのURL (例:https://github.com/nekomiyanatuki/NekomiyaStudio-with-NekomiyaCity)
+- 原作品名 (例:NekomiyaStudio)
+- 原リポジトリのURL (例:https://github.com/nekomiyanatuki/NekomiyaStudio)
 - 本ライセンスの全文または本ライセンスへの参照
 - 変更を加えた場合、その変更内容の概要(※1: 基本的明示方法)
 

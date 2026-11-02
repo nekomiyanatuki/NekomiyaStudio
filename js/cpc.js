@@ -15,7 +15,7 @@
         ];
 
         const STORAGE_KEY = 'cpcState';
-        const LOGO_URL = 'https://nekomiyanatuki.github.io/NekomiyaStudio-With-NekomiyaCity/images/icons/logo.png';
+        const LOGO_URL = 'https://nekomiyanatuki.github.io/NekomiyaStudio/image/icon/share.png';
 
         const colorThemes = {
             blue: { line: 'rgba(54, 162, 235, 1)', bg: 'rgba(54, 162, 235, 0.2)', point: 'rgba(54, 162, 235, 1)' },

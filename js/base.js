@@ -7,25 +7,19 @@
 
     function init() {
         const SITE_CONFIG = {
-            nameJa: '猫宮のアトリエwith猫宮の街',
-            nameEn: 'NekomiyaStudio-with-NekomiyaCity',
-            homeUrl: 'https://nekomiyanatuki.github.io/NekomiyaStudio-with-NekomiyaCity/',
-            logoUrl: 'https://nekomiyanatuki.github.io/NekomiyaStudio-with-NekomiyaCity/images/icons/logo.png'
+            nameJa: '猫宮のアトリエ',
+            nameEn: 'NekomiyaStudio',
+            homeUrl: 'https://nekomiyanatuki.github.io/NekomiyaStudio/',
+            logoUrl: 'https://nekomiyanatuki.github.io/NekomiyaStudio/image/icon/share.png'
         };
 
         // ===== ルート定義（拡張可能） =====
         const ROUTES = {
-            '': {
+            'NekomiyaCity': {
                 src: 'index.html',
-                titleJa: '猫宮のアトリエwith猫宮の街',
-                titleEn: 'NekomiyaStudio-with-NekomiyaCity',
-                status: '503'  // ホーム(メインページ)は未作成
-            },
-            'Home': {
-                src: 'index.html',
-                titleJa: '猫宮のアトリエwith猫宮の街',
-                titleEn: 'NekomiyaStudio-with-NekomiyaCity',
-                status: '503'  // ホーム(メインページ)は未作成
+                titleJa: '猫宮のアトリエ',
+                titleEn: 'NekomiyaStudio',
+                status: 'active'  // ホーム(メインページ) - [準備中]
             },
             'cpc': {
                 src: 'cpc.html',
@@ -102,7 +96,7 @@
         // ===== ルーティング処理 =====
         function handleRoute() {
             // URL からハッシュを取得（例: /cpc）
-            let hash = window.location.hash.replace('/', '') || 'Home';
+            let hash = window.location.hash.replace('/', '');
             
             // エラーパラメータがある場合はエラーページに強制遷移
             const urlParams = new URLSearchParams(window.location.search);
@@ -165,7 +159,7 @@
         // ===== サイトロゴクリック → ホームへ遷移 =====
         siteLogo.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.hash = '' || 'Home';
+            window.location.hash = '';
         });
 
         // ===== ハンバーガーメニュー =====
