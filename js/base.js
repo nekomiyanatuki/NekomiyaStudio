@@ -15,7 +15,7 @@
 
         // ===== ルート定義（拡張可能） =====
         const ROUTES = {
-            'NekomiyaCity': {
+            'NekomiyaStudio': {
                 src: 'index.html',
                 titleJa: '猫宮のアトリエ',
                 titleEn: 'NekomiyaStudio',
