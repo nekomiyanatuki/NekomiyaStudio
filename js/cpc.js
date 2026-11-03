@@ -196,9 +196,9 @@
                 scales: {
                     r: {
                         min: 0,
-                        max: 100,
+                        max: 300,
                         grid: {
-                            color: 'rgba(0, 0, 0, 0.1)',
+                            color: 'rgba(255, 255, 255, 0.1)',
                             circular: currentGridStyle === 'circle'
                         },
                         angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
@@ -249,8 +249,8 @@
                 row.innerHTML = 
                     '<input type="text" value="' + item.label + '" data-index="' + index + '" class="item-name-input" placeholder="項目名">' +
                     '<div class="slider-container">' +
-                        '<input type="range" value="' + item.value + '" data-index="' + index + '" class="item-slider" min="0" max="100">' +
-                        '<input type="number" value="' + item.value + '" data-index="' + index + '" class="slider-val-input" min="0" max="100" id="val-' + index + '">' +
+                        '<input type="range" value="' + item.value + '" data-index="' + index + '" class="item-slider" min="0" max="300">' +
+                        '<input type="number" value="' + item.value + '" data-index="' + index + '" class="slider-val-input" min="0" max="300" id="val-' + index + '">' +
                     '</div>' +
                     '<button class="btn btn-delete" data-index="' + index + '">削除</button>';
                 
@@ -289,7 +289,7 @@
                 let val = parseInt(e.target.value);
                 if (isNaN(val)) val = 0;
                 if (val < 0) val = 0;
-                if (val > 100) val = 100;
+                if (val > 300) val = 300;
                 
                 chartData[index].value = val;
                 e.target.value = val;
@@ -397,7 +397,7 @@
                 if (blob) {
                     const url = URL.createObjectURL(blob);
                     const link = document.createElement('a');
-                    link.download = 'cpc.png';
+                    link.download = currentTitle + '.png';
                     link.href = url;
                     document.body.appendChild(link);
                     link.click();
@@ -411,7 +411,7 @@
         chartShareBtn.addEventListener('click', function() {
             createChartImageWithTitle().then(function(blob) {
                 if (blob) {
-                    const file = new File([blob], 'cpc.png', { type: 'image/png' });
+                    const file = new File([blob], currentTitle + '.png', { type: 'image/png' });
                     
                     if (navigator.canShare && navigator.canShare({ files: [file] })) {
                         navigator.share({
@@ -427,7 +427,7 @@
                         // ファイル共有非対応：保存にフォールバック
                         const url = URL.createObjectURL(blob);
                         const link = document.createElement('a');
-                        link.download = 'cpc.png';
+                        link.download = currentTitle + '.png';
                         link.href = url;
                         document.body.appendChild(link);
                         link.click();
