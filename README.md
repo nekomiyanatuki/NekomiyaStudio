@@ -1,4 +1,7 @@
 # ~ 猫宮のアトリエ ~ with 猫宮の街
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 - **[ホーム(メインページ)](https://nekomiyanatuki.github.io/NekomiyaStudio)**
 > **`言語: 日本語` | `Lang: JP` - `ISO: ja_JP`**
@@ -43,14 +46,6 @@
 学習、研究がAIの読み込み、学習に繋がる場合、それらは最終的にAI学習の一環として商用利用であると解釈されます。
 明示的に許可されたものである[項目:2]以外での商用的な利用に繋がる可能性がございましたら、本プロジェクトのお問い合わせ先にご相談ください。
 ~~~
-
-## 貢献者 (Contributors)
-
-プロジェクトの発展を支えてくれた最高の支援者たち！
-
-<!-- all-contributors-start -->
-<!-- all-contributors-end -->
-
 
 # ~ NekomiyaStudio ~ with NekomiyaCity
 - **[Home(MainPage)](https://nekomiyanatuki.github.io/NekomiyaStudio)**
@@ -97,9 +92,24 @@ If learning or research leads to the training of an AI, such activities are ulti
 If there is any possibility that your use could lead to commercial use other than what is explicitly permitted [Item: 2], please consult the contact information for this project.
 ~~~
 
-## Contributors
+## 貢献者 (Contributors)
 
-Our amazing supporters who have helped the project grow!
+プロジェクトの発展を支えてくれた最高の支援者たち！ (Our amazing supporters who have helped the project grow!)
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/roloa"><img src="https://avatars.githubusercontent.com/u/6890553?v=4?s=100" width="100px;" alt="roloa"/><br /><sub><b>roloa</b></sub></a><br /><a href="https://github.com/nekomiyanatuki/NekomiyaStudio/commits?author=roloa" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 <!-- all-contributors-start -->
 <!-- all-contributors-end -->
