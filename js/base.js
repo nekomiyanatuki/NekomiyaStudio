@@ -10,32 +10,33 @@
             nameJa: '猫宮のアトリエ',
             nameEn: 'NekomiyaStudio',
             homeUrl: 'https://nekomiyanatuki.github.io/NekomiyaStudio/',
-            logoUrl: 'https://nekomiyanatuki.github.io/NekomiyaStudio/image/icon/share.png'
+            logoUrl: 'https://nekomiyanatuki.github.io/NekomiyaStudio/pic-image/icon/share.png'
         };
 
         // ===== ルート定義（拡張可能） =====
         const ROUTES = {
-            'NekomiyaStudio': {
+            // ホーム(メインページ) - [準備中]
+            'home': {
                 src: 'index.html',
                 titleJa: '猫宮のアトリエ',
                 titleEn: 'NekomiyaStudio',
-                status: 'active'  // ホーム(メインページ) - [準備中]
+                status: 'active'
             },
             'cpc': {
-                src: 'cpc.html',
+                src: 'cpc/index.html',
                 titleJa: 'カスタムサークルチャート',
                 titleEn: 'CustomPieChart',
                 status: 'active'
             },
             // エラーページ
-            '404': {
-                src: 'error.html?error=404',
+            '404': { 
+                src: 'error-content.html?error=404',
                 titleJa: '404 Not Found',
                 titleEn: '404 Not Found',
                 status: 'error'
             },
-            '503': {
-                src: 'error.html?error=503',
+            '503': { 
+                src: 'error-content.html?error=503',
                 titleJa: '503 Service Unavailable',
                 titleEn: '503 Service Unavailable',
                 status: 'error'
@@ -95,24 +96,29 @@
 
         // ===== ルーティング処理 =====
         function handleRoute() {
-            // URL からハッシュを取得（例: /cpc）
-            let hash = window.location.hash.replace('/', '');
+            // handleRoute() 内
+            let hash = window.location.hash.replace('/', '').replace('#', '').replace('#/', '');
+            // '#cpc|#/cpc|/cpc' → 'cpc'
+
+            // 空の場合ホームに遷移
+            if (!hash) hash = 'home';
             
-            // エラーパラメータがある場合はエラーページに強制遷移
+            // エラーパラメータがある場合エラーページに強制遷移
             const urlParams = new URLSearchParams(window.location.search);
+            // base.js の handleRoute() 内
             const errorCode = urlParams.get('error');
             if (errorCode === '404' || errorCode === '503') {
-                hash = 'Error=' + errorCode;
+                hash = errorCode;  // 正常動作の確認
             }
             
-            // ルートが存在しない場合は 404
+            // ルートが存在しない場合 404
             const route = ROUTES[hash] || ROUTES['404'];
             
             // iframe の src を変更
             pageFrame.src = route.src;
             pageFrame.title = isJapanese ? route.titleJa : route.titleEn;
             
-            // ページタイトルも更新
+            // ページタイトルの更新
             document.title = isJapanese ? route.titleJa : route.titleEn;
             
             // メニューのアクティブ状態を更新
@@ -124,11 +130,11 @@
             menuList.innerHTML = '';
             Object.keys(ROUTES).forEach(function(key) {
                 const route = ROUTES[key];
-                if (route.status === 'error') return; // エラーページはメニューに表示しない
+                if (route.status === 'error') return; // エラーページはメニュー非表示
                 
                 const li = document.createElement('li');
                 const a = document.createElement('a');
-                a.href = '/' + key;
+                a.href = key; // '/key'
                 a.textContent = isJapanese ? route.titleJa : route.titleEn;
                 a.dataset.route = key;
                 
@@ -159,7 +165,7 @@
         // ===== サイトロゴクリック → ホームへ遷移 =====
         siteLogo.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.hash = '';
+            window.location.hash = 'home';
         });
 
         // ===== ハンバーガーメニュー =====
@@ -203,29 +209,26 @@
             }, 3000);
         }
 
-        // ===== リンク共有 =====
+        // リンク共有ボタンの処理
         linkShareBtn.addEventListener('click', function() {
             const shareUrl = buildShareUrl(window.location.href);
             
-            if (navigator.share) {
-                navigator.share({
-                    title: isJapanese ? SITE_CONFIG.nameJa : SITE_CONFIG.nameEn,
-                    text: isJapanese ? SITE_CONFIG.nameJa : SITE_CONFIG.nameEn,
-                    url: shareUrl
-                }).then(function() {
-                    showToast(isJapanese ? '🔗 共有しました' : '🔗 Shared');
-                }).catch(function(err) {
-                    if (err.name !== 'AbortError') {
-                        showToast(isJapanese ? '⚠️ 共有に失敗しました' : '⚠️ Share failed');
-                    }
-                });
-            } else {
-                navigator.clipboard.writeText(shareUrl).then(function() {
-                    showToast(isJapanese ? '🔗 URL をコピーしました' : '🔗 URL copied');
-                }).catch(function() {
-                    showToast(isJapanese ? '⚠️ コピーに失敗しました' : '⚠️ Copy failed');
-                });
-            }
+            // クリップボードコピーを優先
+            navigator.clipboard.writeText(shareUrl).then(function() {
+                showToast(isJapanese ? '🔗 URL をコピーしました' : '🔗 URL copied');
+            }).catch(function() {
+                // クリップボード失敗時のみ共有ダイアログを表示
+                if (navigator.share) {
+                    navigator.share({
+                        title: isJapanese ? SITE_CONFIG.nameJa : SITE_CONFIG.nameEn,
+                        url: shareUrl
+                    }).catch(function(err) {
+                        if (err.name !== 'AbortError') {
+                            showToast('⚠️ 共有に失敗しました');
+                        }
+                    });
+                }
+            });
         });
 
         // ===== 初回読み込み =====

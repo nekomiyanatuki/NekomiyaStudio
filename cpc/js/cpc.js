@@ -15,7 +15,7 @@
         ];
 
         const STORAGE_KEY = 'cpcState';
-        const LOGO_URL = 'https://nekomiyanatuki.github.io/NekomiyaStudio/image/icon/share.png';
+        const LOGO_URL = 'https://nekomiyanatuki.github.io/NekomiyaStudio/pic-image/icon/share.png';
 
         const colorThemes = {
             blue: { line: 'rgba(54, 162, 235, 1)', bg: 'rgba(54, 162, 235, 0.2)', point: 'rgba(54, 162, 235, 1)' },
@@ -407,24 +407,20 @@
             });
         });
 
-        // ===== チャート画像共有 =====
+        // チャート共有ボタンの処理
         chartShareBtn.addEventListener('click', function() {
             createChartImageWithTitle().then(function(blob) {
                 if (blob) {
-                    const file = new File([blob], currentTitle + '.png', { type: 'image/png' });
-                    
-                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                        navigator.share({
-                            files: [file],
-                            title: currentTitle,
-                            text: currentTitle
-                        }).catch(function(err) {
-                            if (err.name !== 'AbortError') {
-                                console.error('Share failed:', err);
-                            }
-                        });
-                    } else {
-                        // ファイル共有非対応：保存にフォールバック
+                    // クリップボードに画像をコピー
+                    navigator.clipboard.write([
+                        new ClipboardItem({
+                            'image/png': blob
+                        })
+                    ]).then(function() {
+                        showToast(isJapanese ? '📋 チャート画像をコピーしました' : '📋 Chart copied');
+                    }).catch(function(err) {
+                        console.error('Clipboard write failed:', err);
+                        // クリップボード失敗時はダウンロードにフォールバック
                         const url = URL.createObjectURL(blob);
                         const link = document.createElement('a');
                         link.download = currentTitle + '.png';
@@ -433,7 +429,8 @@
                         link.click();
                         document.body.removeChild(link);
                         URL.revokeObjectURL(url);
-                    }
+                        showToast(isJapanese ? '📥 画像をダウンロードしました' : '📥 Downloaded');
+                    });
                 }
             });
         });

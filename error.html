@@ -11,8 +11,8 @@
 <body>
 
 <header class="sticky-header">
-    <a href="NekomiyaStudio" class="site-logo" id="siteLogo">
-        <img src="image/icon/share.png" alt="猫宮のアトリエ" class="logo-img">
+    <a href="home" class="site-logo" id="siteLogo">
+        <img src="pic-image/icon/share.png" alt="猫宮のアトリエ" class="logo-img">
     </a>
     <div class="header-actions">
         <button class="btn btn-theme" id="themeToggle" title="テーマ切り替え">🌙</button>
@@ -34,7 +34,7 @@
         <h1 id="errorCode">404</h1>
         <h2 id="errorTitle">Not Found</h2>
         <p id="errorMessage">お探しのページは見つかりませんでした。</p>
-        <a href="NekomiyaStudio" class="btn btn-home">ホームに戻る</a>
+        <a href="home" class="btn btn-home">ホームに戻る</a>
     </div>
 </main>
 
@@ -51,15 +51,21 @@
     const errorCodeEl = document.getElementById('errorCode');
     const errorTitleEl = document.getElementById('errorTitle');
     const errorMessageEl = document.getElementById('errorMessage');
-    
+
+    // 明示的に 404 または 503 のみ受け付ける
     if (errorCode === '503') {
-        errorCodeEl.textContent = '503';
-        errorTitleEl.textContent = 'Service Unavailable';
-        errorMessageEl.textContent = 'このページは現在準備中です。';
+        document.getElementById('errorCode').textContent = '503';
+        document.getElementById('errorTitle').textContent = 'Service Unavailable';
+        document.getElementById('errorMessage').textContent = 'このページは現在準備中です。';
+    } else if (errorCode === '404') {
+        document.getElementById('errorCode').textContent = '404';
+        document.getElementById('errorTitle').textContent = 'Not Found';
+        document.getElementById('errorMessage').textContent = 'お探しのページは見つかりませんでした。';
     } else {
-        errorCodeEl.textContent = '404';
-        errorTitleEl.textContent = 'Not Found';
-        errorMessageEl.textContent = 'お探しのページは見つかりませんでした。';
+        // デフォルトは 404
+        document.getElementById('errorCode').textContent = '404';
+        document.getElementById('errorTitle').textContent = 'Not Found';
+        document.getElementById('errorMessage').textContent = 'お探しのページは見つかりませんでした。';
     }
 </script>
 </body>

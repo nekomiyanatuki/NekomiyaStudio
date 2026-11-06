@@ -35,8 +35,9 @@
     </head>
 <body>
 
+<!-- base 構造を直接記述（iframe で base.html を読まない） -->
 <header class="sticky-header">
-    <a href="NekomiyaStudio" class="site-logo" id="siteLogo">
+    <a href="home" class="site-logo" id="siteLogo">
         <img src="pic-image/icon/share.png" alt="猫宮のアトリエ" class="logo-img">
     </a>
     <div class="header-actions">
@@ -54,9 +55,11 @@
 </nav>
 <div class="menu-overlay" id="menuOverlay"></div>
 
+
 <!-- iframe は 1 つのみ。src は JavaScript で動的変更 -->
+<!-- iframe はコンテンツページのみ -->
 <main class="main-content">
-    <iframe src="index.html" class="page-frame" id="pageFrame" title="NekomiyaStudio"></iframe>
+    <iframe src="home.html" class="page-frame" id="pageFrame" title="Content"></iframe>
 </main>
 
 <button class="btn btn-link-share" id="linkShareBtn" title="ページの URL を共有">🔗</button>
