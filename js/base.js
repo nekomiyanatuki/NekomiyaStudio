@@ -223,8 +223,13 @@
 
         // ===== iframe からのメッセージに応答 =====
         window.addEventListener('message', function(e) {
-            // セキュリティ: 送信元のオリジンを検証
-            if (e.origin !== 'https://nekomiyanatuki.github.io') {
+            // 同一オリジンまたは許可されたオリジンのみ受け付ける
+            const allowedOrigins = [
+                'https://nekomiyanatuki.github.io',
+                window.location.origin
+            ];
+
+            if (!allowedOrigins.includes(e.origin)) {
                 return;
             }
     

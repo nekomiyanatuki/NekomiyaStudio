@@ -7,8 +7,9 @@
     padding: 20px;
 }
 
+/* ===== 操作パネル ===== */
 .panel {
-    background: white;
+    background: #ffffff;
     padding: 25px;
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
@@ -17,9 +18,10 @@
     transition: background 0.3s, box-shadow 0.3s;
 }
 
+/* ダークモード時の操作パネル */
 body.dark-mode .panel {
-    background: #2a2a2a;
-    box-shadow: 0 4px 20px rgba(115,115,115,1.0);
+    background: #2a2a2a !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
 }
 
 /* ===== チャートコンテナ ===== */
