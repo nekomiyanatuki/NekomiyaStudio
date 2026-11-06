@@ -23,20 +23,20 @@
                 status: 'active'
             },
             'cpc': {
-                src: 'cpc/index.html',
+                src: 'cpc/cpc.html',
                 titleJa: 'カスタムサークルチャート',
                 titleEn: 'CustomPieChart',
                 status: 'active'
             },
             // エラーページ
             '404': { 
-                src: 'error-content.html?error=404',
+                src: 'error.html?error=404',
                 titleJa: '404 Not Found',
                 titleEn: '404 Not Found',
                 status: 'error'
             },
             '503': { 
-                src: 'error-content.html?error=503',
+                src: 'error.html?error=503',
                 titleJa: '503 Service Unavailable',
                 titleEn: '503 Service Unavailable',
                 status: 'error'
