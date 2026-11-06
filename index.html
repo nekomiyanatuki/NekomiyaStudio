@@ -1,71 +1,71 @@
 <!DOCTYPE html>
 <html lang="ja">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>猫宮のアトリエ</title>
-        <!-- CSS -->
-        <link rel="stylesheet" href="css/base.css">
-        <link rel="stylesheet" href="css/index.css">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>猫宮のアトリエ</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
 
-        <!-- OGP（Discord 埋め込み用） -->
-        <meta property="og:url" content="https://nekomiyanatuki.github.io/NekomiyaStudio/" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="猫宮のアトリエ" />
-        <meta property="og:description" content="ここは猫宮のアトリエ、「猫宮ナツキ」や「支援者」たちによる便利な作品を公開し育てるための工房" />
-        <meta property="og:image" content="https://nekomiyanatuki.github.io/NekomiyaStudio/pic-image/icon/share.png" />
+    <!-- OGP（Discord 埋め込み用） -->
+    <meta property="og:url" content="https://nekomiyanatuki.github.io/NekomiyaStudio/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="猫宮のアトリエ" />
+    <meta property="og:description" content="ここは猫宮のアトリエ、「猫宮ナツキ」や「支援者」たちによる便利な作品を公開し育てるための工房" />
+    <meta property="og:image" content="https://nekomiyanatuki.github.io/NekomiyaStudio/pic-image/icon/share.png" />
 
-        <meta name="keywords" content="
-        猫宮のアトリエ, NekomiyaStudio, 猫宮の街, NekomiyaCity, 猫宮ナツキ, NekomiyaNatuki,
-        キャットファンタジー, CatFantasy, キャトファン, 
-        トーラムオンライン, ToramOnline, トーラム, 八坂の氷刃, Gathering Blades,
-        ソウルズレムナント, Soul's Remnant, ソルレム, SoR, ゲーム掲示板, ゲーム攻略, バージョンリリース,
-        " />
-        <meta name="description" content="
-        ここは猫宮のアトリエ、「猫宮ナツキ」や「支援者」たちによる便利な作品を公開し育てるための工房
-        " />
+    <meta name="keywords" content="
+    猫宮のアトリエ, NekomiyaStudio, 猫宮の街, NekomiyaCity, 猫宮ナツキ, NekomiyaNatuki,
+    キャットファンタジー, CatFantasy, キャトファン, 
+    トーラムオンライン, ToramOnline, トーラム, 八坂の氷刃, Gathering Blades,
+    ソウルズレムナント, Soul's Remnant, ソルレム, SoR, ゲーム掲示板, ゲーム攻略, バージョンリリース,
+    " />
+    <meta name="description" content="
+    ここは猫宮のアトリエ、「猫宮ナツキ」や「支援者」たちによる便利な作品を公開し育てるための工房
+    " />
 
-        <link rel="canonical" href="https://nekomiyanatuki.github.io/NekomiyaStudio/" />
-        <link rel="alternate" media="only screen and (max-width: 640px)"
-            href="https://nekomiyanatuki.github.io/NekomiyaStudio/index.html" />
+    <link rel="canonical" href="https://nekomiyanatuki.github.io/NekomiyaStudio/" />
+    <link rel="alternate" media="only screen and (max-width: 640px)"
+    href="https://nekomiyanatuki.github.io/NekomiyaStudio/index.html" />
     
-        <!-- X(旧Twitter)-->
-        <meta name="twitter:card" content="summary_large_image" />
-        <link rel="Shortcut Icon" href="https://nekomiyanatuki.github.io/NekomiyaStudio\pic-image\icon\favicon.ico" type="pic-image/icon/x-icon" />
-    </head>
+    <!-- X(旧Twitter)-->
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="Shortcut Icon" href="pic-image/icon/favicon.ico" type="image/x-icon" />
+</head>
 <body>
 
-<!-- base 構造を直接記述（iframe で base.html を読まない） -->
-<header class="sticky-header">
-    <a href="home" class="site-logo" id="siteLogo">
-        <img src="pic-image/icon/share.png" alt="猫宮のアトリエ" class="logo-img">
-    </a>
-    <div class="header-actions">
-        <button class="btn btn-theme" id="themeToggle" title="テーマ切り替え">🌙</button>
-        <button class="hamburger" id="hamburgerBtn" aria-label="メニューを開く">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </div>
-</header>
+    <!-- base 構造を直接記述（iframe で base.html を読まない） -->
+    <header class="sticky-header">
+        <a href="#" class="site-logo" id="siteLogo">
+            <img src="pic-image/icon/share.png" alt="猫宮のアトリエ" class="logo-img">
+        </a>
+        <div class="header-actions">
+            <button class="btn btn-theme" id="themeToggle" title="テーマ切り替え">🌙</button>
+            <button class="hamburger" id="hamburgerBtn" aria-label="メニューを開く">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
 
-<nav class="side-menu" id="sideMenu">
-    <ul id="menuList"></ul>
-</nav>
-<div class="menu-overlay" id="menuOverlay"></div>
+    <nav class="side-menu" id="sideMenu">
+        <ul id="menuList"></ul>
+    </nav>
+    <div class="menu-overlay" id="menuOverlay"></div>
 
 
-<!-- iframe は 1 つのみ。src は JavaScript で動的変更 -->
-<!-- iframe はコンテンツページのみ -->
-<main class="main-content">
-    <iframe src="home.html" class="page-frame" id="pageFrame" title="Content"></iframe>
-</main>
+    <!-- iframe は 1 つのみ。src は JavaScript で動的変更 -->
+    <!-- iframe はコンテンツページのみ -->
+    <main class="main-content">
+        <iframe src="home.html" class="page-frame" id="pageFrame" title="Content"></iframe>
+    </main>
 
-<button class="btn btn-link-share" id="linkShareBtn" title="ページの URL を共有">🔗</button>
+    <button class="btn btn-link-share" id="linkShareBtn" title="ページの URL を共有">🔗</button>
 
-<div id="toast" class="toast"></div>
+    <div id="toast" class="toast"></div>
 
-<script src="js/base.js"></script>
+    <script src="js/base.js"></script>
 </body>
 </html>

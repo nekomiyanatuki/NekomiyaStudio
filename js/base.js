@@ -15,32 +15,33 @@
 
         // ===== ルート定義（拡張可能） =====
         const ROUTES = {
-            // ホーム(メインページ) - [準備中]
+            // メインページ
             'home': {
-                src: 'index.html',
+                src: 'home.html',
                 titleJa: '猫宮のアトリエ',
                 titleEn: 'NekomiyaStudio',
                 status: 'active'
             },
-            'cpc': {
-                src: 'cpc/cpc.html',
-                titleJa: 'カスタムサークルチャート',
-                titleEn: 'CustomPieChart',
-                status: 'active'
-            },
-            // エラーページ
-            '404': { 
+            // エラーコンテンツ
+            '404': {
                 src: 'error.html?error=404',
                 titleJa: '404 Not Found',
                 titleEn: '404 Not Found',
                 status: 'error'
             },
-            '503': { 
+            '503': {
                 src: 'error.html?error=503',
                 titleJa: '503 Service Unavailable',
                 titleEn: '503 Service Unavailable',
                 status: 'error'
-            }
+            },
+            // 追加コンテンツ
+            'cpc': {
+                src: 'cpc/index.html',
+                titleJa: 'カスタムサークルチャート',
+                titleEn: 'CustomPieChart',
+                status: 'active'
+            },
         };
 
         // 言語判定
@@ -90,39 +91,51 @@
         function buildShareUrl(baseUrl) {
             const timeParam = generateTimeParam();
             const device = detectDevice();
-            const separator = baseUrl.includes('?') ? '?' : '&' ;
-            return baseUrl + separator + 'time=' + timeParam + '&' + 'dvice=' + device;
+            const separator = baseUrl.includes('?') ? '&' : '?';
+            return baseUrl + separator + 'time=' + timeParam + '&dvice=' + device;
         }
 
         // ===== ルーティング処理 =====
         function handleRoute() {
-            // handleRoute() 内
-            let hash = window.location.hash.replace('/', '').replace('#', '').replace('#/', '');
-            // '#cpc|#/cpc|/cpc' → 'cpc'
-
-            // 空の場合ホームに遷移
-            if (!hash) hash = 'home';
+            // URL パスから判定
+            const path = window.location.pathname;
             
-            // エラーパラメータがある場合エラーページに強制遷移
+            // エラーパラメータがある場合
             const urlParams = new URLSearchParams(window.location.search);
-            // base.js の handleRoute() 内
             const errorCode = urlParams.get('error');
+            
+            let routeKey;
+            
             if (errorCode === '404' || errorCode === '503') {
-                hash = errorCode;  // 正常動作の確認
+                routeKey = errorCode;
+            } else if (path === '/' || path === '/index.html' || path === '/NekomiyaStudio/') {
+                routeKey = 'home';
+            } else if (path.includes('/cpc')) {
+                routeKey = 'cpc';
+            } else {
+                routeKey = '404';
             }
             
-            // ルートが存在しない場合 404
-            const route = ROUTES[hash] || ROUTES['404'];
+            navigateTo(routeKey);
+        }
+
+        // ===== ページ遷移関数 =====
+        function navigateTo(routeKey) {
+            const route = ROUTES[routeKey];
+            if (!route) return;
             
             // iframe の src を変更
             pageFrame.src = route.src;
             pageFrame.title = isJapanese ? route.titleJa : route.titleEn;
-            
             // ページタイトルの更新
             document.title = isJapanese ? route.titleJa : route.titleEn;
             
             // メニューのアクティブ状態を更新
-            updateMenuActive(hash);
+            updateMenuActive(routeKey);
+            
+            // サイドメニューを閉じる
+            sideMenu.classList.remove('open');
+            menuOverlay.classList.remove('show');
         }
 
         // ===== メニュー生成 =====
@@ -134,13 +147,15 @@
                 
                 const li = document.createElement('li');
                 const a = document.createElement('a');
-                a.href = key; // '/key'
+                a.href = '#';
                 a.textContent = isJapanese ? route.titleJa : route.titleEn;
                 a.dataset.route = key;
                 
-                if (route.status === '503') {
-                    a.classList.add('unavailable');
-                }
+                // クリックイベントで iframe の src を変更
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navigateTo(key);
+                });
                 
                 li.appendChild(a);
                 menuList.appendChild(li);
@@ -148,10 +163,10 @@
         }
 
         // ===== メニューのアクティブ状態更新 =====
-        function updateMenuActive(currentHash) {
+        function updateMenuActive(currentRoute) {
             const links = menuList.querySelectorAll('a');
             links.forEach(function(link) {
-                if (link.dataset.route === currentHash) {
+                if (link.dataset.route === currentRoute) {
                     link.classList.add('active');
                 } else {
                     link.classList.remove('active');
@@ -159,13 +174,10 @@
             });
         }
 
-        // ===== ハッシュ変更監視 =====
-        window.addEventListener('hashchange', handleRoute);
-
         // ===== サイトロゴクリック → ホームへ遷移 =====
         siteLogo.addEventListener('click', function(e) {
             e.preventDefault();
-            window.location.hash = 'home';
+            navigateTo('home');
         });
 
         // ===== ハンバーガーメニュー =====
