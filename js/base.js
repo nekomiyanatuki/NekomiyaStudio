@@ -221,6 +221,27 @@
             }, 3000);
         }
 
+        // ===== iframe からのメッセージに応答 =====
+        window.addEventListener('message', function(e) {
+            // セキュリティ: 送信元のオリジンを検証
+            if (e.origin !== 'https://nekomiyanatuki.github.io') {
+                return;
+            }
+    
+            // iframe からのテーマ要求
+            if (e.data && e.data.type === 'requestTheme') {
+                e.source.postMessage({ 
+                    type: 'themeChange', 
+                    dark: isDarkMode 
+                }, e.origin);
+            }
+    
+            // iframe からのトースト要求
+            if (e.data && e.data.type === 'showToast') {
+                showToast(e.data.message);
+            }
+        });
+        
         // リンク共有ボタンの処理
         linkShareBtn.addEventListener('click', function() {
             const shareUrl = buildShareUrl(window.location.href);

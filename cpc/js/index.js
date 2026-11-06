@@ -42,15 +42,13 @@
         const userLang = navigator.language || navigator.userLanguage;
         const isJapanese = userLang.startsWith('ja');
 
-        let isDarkMode = localStorage.getItem('darkMode') === 'true';
+        let isDarkMode = false;
 
-        window.addEventListener('message', function(e) {
-            if (e.data && e.data.type === 'themeChange') {
-                isDarkMode = e.data.dark;
-                document.body.classList.toggle('dark-mode', isDarkMode);
-                updateChartColors();
-            }
-        });
+        // ===== テーマ変更コールバック（iframe-sync.js から呼ばれる） =====
+        window.onThemeChange = function(dark) {
+            isDarkMode = dark;
+            updateChartColors();
+        };
 
         // 状態管理
         let chartData = [];
@@ -407,11 +405,10 @@
             });
         });
 
-        // チャート共有ボタンの処理
+        // ===== チャート画像共有（クリップボードコピーのみ） =====
         chartShareBtn.addEventListener('click', function() {
             createChartImageWithTitle().then(function(blob) {
                 if (blob) {
-                    // クリップボードに画像をコピー
                     navigator.clipboard.write([
                         new ClipboardItem({
                             'image/png': blob
@@ -420,20 +417,23 @@
                         showToast(isJapanese ? '📋 チャート画像をコピーしました' : '📋 Chart copied');
                     }).catch(function(err) {
                         console.error('Clipboard write failed:', err);
-                        // クリップボード失敗時はダウンロードにフォールバック
-                        const url = URL.createObjectURL(blob);
-                        const link = document.createElement('a');
-                        link.download = currentTitle + '.png';
-                        link.href = url;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        URL.revokeObjectURL(url);
-                        showToast(isJapanese ? '📥 画像をダウンロードしました' : '📥 Downloaded');
+                        showToast(isJapanese ? '⚠️ コピーに失敗しました' : '⚠️ Copy failed');
+                        // ダウンロードは行わない
                     });
                 }
             });
         });
+
+        // ===== トースト表示 =====
+        function showToast(message) {
+            // トースト要素が親ページにある場合は親に通知
+            if (window.parent !== window) {
+                window.parent.postMessage({ 
+                    type: 'showToast', 
+                    message: message 
+                }, '*');
+            }
+        }
 
         loadState();
         gridStyleSelect.value = currentGridStyle;
@@ -446,7 +446,6 @@
         customColorInput.value = customColor;
         colorPreview.style.backgroundColor = customColor;
         chartTitleInput.value = currentTitle;
-        document.body.classList.toggle('dark-mode', isDarkMode);
         renderInputs();
     }
 })();
